@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../../../Global/Player/Enum/PlayerAnimState.h"
 #include "PlayerBase.generated.h"
 
 UCLASS()
@@ -30,8 +31,28 @@ public:
 public:
 
 	class UCameraComponent* GetCameraComponent();
-	class UCameraComponent* SetCameraComponent(class UCameraComponent* _CameraComponent);
+	void SetCameraComponent(class UCameraComponent* _CameraComponent);
 
+public:
+
+	void MoveAction();
+
+	void SetPlayerAnimState(PlayerAnimState _PlayerAnimState);
+
+	bool GetPlayerIsAttacking();
+	
+	void SetPlayerIsAttacking(bool _IsAttacking);
+
+protected:
+
+	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)
+	PlayerAnimState m_AnimState;
+
+	bool m_IsAttacking = false;
+
+	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)
+	TMap<PlayerAnimState, UAnimMontage*> m_AllAnimations;
+	
 private:
 	//CameraComponent
 
@@ -40,5 +61,7 @@ private:
 	
 	class UCameraComponent* m_CameraComponent;
 
+private:
 
+	const int32 PLAYER_SKILL_NUM = 4;
 };
