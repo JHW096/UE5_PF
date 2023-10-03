@@ -104,11 +104,21 @@ void APlayerBase::SetCameraComponent(UCameraComponent* _CameraComponent)
 
 void APlayerBase::MoveAction()
 {
-	if (GetPlayerIsAttacking())
+	/*if (GetPlayerIsAttacking())
 	{
 		return;
-	}
+	}*/
 	m_AnimState = GetVelocity().Size() > 1.0f ? PlayerAnimState::MOVE : PlayerAnimState::IDLE;
+}
+
+TMap<PlayerAnimState, UAnimMontage*> APlayerBase::GetAllAnimations()
+{
+	return m_AllAnimations;
+}
+
+PlayerAnimState APlayerBase::GetPlayerAnimState()
+{
+	return m_AnimState;
 }
 
 void APlayerBase::SetPlayerAnimState(PlayerAnimState _PlayerAnimState)

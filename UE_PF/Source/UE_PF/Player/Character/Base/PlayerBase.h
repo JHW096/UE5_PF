@@ -37,6 +37,10 @@ public:
 
 	void MoveAction();
 
+	TMap<PlayerAnimState, UAnimMontage*> GetAllAnimations();
+
+	PlayerAnimState GetPlayerAnimState();
+
 	void SetPlayerAnimState(PlayerAnimState _PlayerAnimState);
 
 	bool GetPlayerIsAttacking();
