@@ -11,4 +11,5 @@ enum class PlayerAnimState : uint8
 	IDLE,
 	MOVE,
 	DASH,
+	NORAMLATT,
 };

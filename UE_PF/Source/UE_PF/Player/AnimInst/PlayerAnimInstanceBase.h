@@ -22,6 +22,9 @@ protected:
 
 public:
 
+	UFUNCTION()
+	virtual void MontageBlendOut(UAnimMontage* _Anim, bool _Inter);
+
 	void PlayIdle();
 	void PlayRun();
 

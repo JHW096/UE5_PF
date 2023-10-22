@@ -108,6 +108,12 @@ void APlayerBase::MoveAction()
 	{
 		return;
 	}*/
+
+	if (m_AnimState == PlayerAnimState::DASH)
+	{
+		return;
+	}
+
 	m_AnimState = GetVelocity().Size() > 1.0f ? PlayerAnimState::MOVE : PlayerAnimState::IDLE;
 }
 

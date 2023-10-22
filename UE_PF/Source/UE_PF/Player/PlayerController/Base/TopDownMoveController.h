@@ -32,7 +32,7 @@ protected:
 
 	virtual void SetupInputComponent() override;
 
-	void MoveAction();
+	//void MoveAction();
 
 public:
 

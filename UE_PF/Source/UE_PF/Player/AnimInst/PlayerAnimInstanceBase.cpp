@@ -9,6 +9,8 @@ void UPlayerAnimInstanceBase::NativeBeginPlay()
 	Super::NativeBeginPlay();
 
 	m_AllAnimations = Cast<APlayerBase>(GetOwningActor())->GetAllAnimations();
+
+	OnMontageBlendingOut.AddDynamic(this, &UPlayerAnimInstanceBase::MontageBlendOut);
 }
 
 void UPlayerAnimInstanceBase::NativeUpdateAnimation(float _DeltaSecond)
@@ -36,6 +38,16 @@ void UPlayerAnimInstanceBase::NativeUpdateAnimation(float _DeltaSecond)
 	}
 }
 
+void UPlayerAnimInstanceBase::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
+{
+	if (_Anim == m_AllAnimations[PlayerAnimState::DASH])
+	{
+		//TODO : if( Fight State : Fight Idle ) else ( Normal State : Idle)
+		m_AnimState = PlayerAnimState::IDLE;
+		Cast<APlayerBase>(GetOwningActor())->SetPlayerAnimState(m_AnimState);
+ 	}
+}
+
 void UPlayerAnimInstanceBase::PlayIdle()
 {
 	if (!Montage_IsPlaying(m_AllAnimations[PlayerAnimState::IDLE]))
@@ -53,7 +65,7 @@ void UPlayerAnimInstanceBase::PlayRun()
 		m_CurrentMontage = m_AllAnimations[PlayerAnimState::MOVE];
 		Montage_Play(m_CurrentMontage, m_AnimSpeed);
 	}
-	
+
 }
 
 

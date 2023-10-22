@@ -2,8 +2,9 @@
 
 
 #include "TopDownMoveController.h"
-#include "TopDownMoveController.h"
+#include "../../Character/Base/PlayerBase.h"
 #include <Blueprint/AIBlueprintHelperLibrary.h>
+#include "Kismet/KismetMathLibrary.h"
 
 ATopDownMoveController::ATopDownMoveController()
 {
@@ -25,6 +26,7 @@ void ATopDownMoveController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
+	//InputMouseMove
 	{
 		m_EnhancedInputComponent->BindAction(
 			InputMouseRAction, ETriggerEvent::Started, this, &ATopDownMoveController::OnInputMouseRStarted
@@ -37,6 +39,13 @@ void ATopDownMoveController::SetupInputComponent()
 		);
 		m_EnhancedInputComponent->BindAction(
 			InputMouseRAction, ETriggerEvent::Canceled, this, &ATopDownMoveController::OnSetDestinationReleased
+		);
+	}
+
+	//SpaceBarDash
+	{
+		m_EnhancedInputComponent->BindAction(
+			InputSpaceAction, ETriggerEvent::Started, this, &ATopDownMoveController::OnInputSpaceStarted
 		);
 	}
 }
@@ -73,6 +82,17 @@ void ATopDownMoveController::OnSetDestinationReleased()
 
 void ATopDownMoveController::OnInputSpaceStarted()
 {
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		GetPawn()->SetActorRotation(Rot);
+	}
+
+
+
+	Cast<APlayerBase>(GetPawn())->SetPlayerAnimState(PlayerAnimState::DASH);
 }
 
 bool ATopDownMoveController::HitSucceeded()
